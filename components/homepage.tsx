@@ -9,121 +9,20 @@ import {
   Mastercard,
   TotalPointsTable,
   TransactionDetails,
+  TransactionDetailsSection,
   UserGroup,
   Visa,
 } from ".";
 import { Layout } from "./common/layout";
 import { ArrowDown2, ArrowUp2, Wallet3 } from "iconsax-react";
-import Image from "next/image";
-import dayjs from "dayjs";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+
 import { DateInput } from "@mantine/dates";
+import { AreaBarChart } from "./transaction-log-chart";
 
 export function Homepage() {
   const intl = useIntl();
 
-  return (
-    <div>
-      <Layout>{<MainContent />}</Layout>
-    </div>
-  );
-}
-
-export const transactionDetails = [
-  {
-    company: "Google Cloud",
-    type: "debit",
-    created_at: "2023-11-20T05:25:27.415Z",
-    value: "-$12.7",
-  },
-  {
-    company: "Google Cloud",
-    type: "credit",
-    created_at: "2023-11-20T05:25:27.415Z",
-    value: "-$12.7",
-  },
-  {
-    company: "Google Cloud",
-    type: "debit",
-    created_at: "2023-11-20T05:25:27.415Z",
-    value: "-$12.7",
-  },
-  {
-    company: "Google Cloud",
-    type: "debit",
-    created_at: "2023-11-20T05:25:27.415Z",
-    value: "-$12.7",
-  },
-];
-
-const areaChartData = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-];
-export function AreaBarChart() {
-  return (
-    <ResponsiveContainer width="100%" height={290}>
-      <AreaChart
-        data={areaChartData}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="name" color="white" />
-        <YAxis />
-
-        <Area
-          type="monotone"
-          dataKey="uv"
-          stroke="#8884d8"
-          fillOpacity={1}
-          fill="url(#colorUv)"
-        />
-        <Area
-          type="monotone"
-          dataKey="pv"
-          stroke="#82ca9d"
-          fillOpacity={1}
-          fill="url(#colorPv)"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
-  );
+  return <Layout>{<MainContent />}</Layout>;
 }
 
 export function MainContent() {
@@ -275,57 +174,9 @@ export function MainContent() {
         </div>
 
         <div className="flex gap-6  min-[1321px]:flex-col min-[1321px]:max-w-[clamp(200px,24vw,397px)]">
-          <div className="rounded-xl bg-white p-5 flex flex-col gap-18 flex-1">
-            <article className="flex gap-2 items-center pb-4 border-b border-platinum">
-              <TransactionDetails />
-              <h2 className="text-dark-gray text-base font-medium">
-                Transaction Details
-              </h2>
-            </article>
-
-            <div className="flex flex-col gap-5 ">
-              {transactionDetails.map(
-                ({ company, type, created_at, value }) => (
-                  <div
-                    key={company}
-                    className="flex justify-between items-center">
-                    <section className=" flex gap-3 items-center">
-                      <Image
-                        src="/Alex-smith.svg"
-                        fill
-                        className="!relative !w-[28px] !h-[28px]"
-                        alt="Company logo"
-                      />
-
-                      <article>
-                        <h3 className="text-dark-gray text-xs font-medium font-poppins">
-                          {company}
-                        </h3>
-
-                        <h4 className="text-gray text-[9px]/[178%] font-normal">
-                          {dayjs(created_at).format("MMMM DD YYYY")} at{" "}
-                          {dayjs(created_at).format("HH.MM")}
-                          {/* June 19 2023 at 16.42 */}
-                        </h4>
-                      </article>
-                    </section>
-
-                    <h4
-                      className={clsx(
-                        type === "debit"
-                          ? "text-geranium-lake"
-                          : "text-malachite-green",
-                        "text-[10px]/160 font-medium"
-                      )}>
-                      -$12.7
-                    </h4>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          <div className="max-[891px]:w-[300px]">
+          {/* Transaction Details */}
+          <TransactionDetailsSection />
+          <div className="max-[950px]:w-[300px]">
             <section className="rounded-xl bg-white p-5 flex flex-col gap-3">
               <article className="flex gap-2 items-center pb-3 border-b border-platinum">
                 <Wallet3 size="20" color="#121212" />
@@ -358,8 +209,10 @@ export function MainContent() {
         </div>
       </div>
 
-      <div className="flex gap-6 max-[893px]:flex-col-reverse">
-        <section className=" px-6 py-28 flex flex-col min-[893px]:max-w-[258px] bg-white rounded-xl h-fit">
+      <div className="flex gap-6 max-[1112px]:flex-col-reverse">
+        {/* Activity Chart Section */}
+
+        <section className=" px-6 py-28 flex flex-col min-[1112px]:max-w-[258px] bg-white rounded-xl h-fit">
           <article className="flex gap-2 items-center pb-3 border-b border-platinum ">
             <GoDatabase size="20" />
             <h2 className="text-dark-gray text-base font-medium  ">
@@ -367,8 +220,8 @@ export function MainContent() {
             </h2>
           </article>
 
-          <section className="flex flex-col">
-            <section className="flex min-[893px]:flex-col max-[893px]:justify-between gap-5">
+          <section className="flex flex-col w-full">
+            <section className="flex min-[1112px]:flex-col max-[1112px]:justify-between gap-5 w-full bg-white">
               <article className="pt-4 flex gap-[10px] flex-col">
                 <h4 className="text-gray text-sm ">Per Week</h4>
 
@@ -417,7 +270,9 @@ export function MainContent() {
           </section>
         </section>
 
-        <section className="flex-1 pt-28 px-48 bg-white rounded-xl flex gap-7  flex-col">
+        {/* Total Point Section */}
+
+        <section className="flex-1 pt-28 px-48 bg-white rounded-xl flex gap-7 flex-col">
           <article className="flex gap-2 items-center pb-4 border-b border-platinum ">
             <GoDatabase size="20" />
             <h2 className="text-dark-gray text-base font-medium ">

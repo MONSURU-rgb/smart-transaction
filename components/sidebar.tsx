@@ -35,7 +35,7 @@ export function Sidebar() {
   return (
     <aside
       role="complementary"
-      className="p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray max-[801px]:hidden">
+      className="p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray max-[801px]:hidden fixed h-screen z-50 w-[200px]">
       <Link href="/">
         <CompanyLogo />
       </Link>

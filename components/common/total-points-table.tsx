@@ -1,54 +1,19 @@
+import { API } from "@/api/axios-config";
+import { builder } from "@/api/builder";
+import { SuppliesForecastData } from "@/types";
 import { Table } from "@mantine/core";
-const elements = [
-  {
-    actual_value: 133525,
-    forecasted_value: 44420,
-    name: "Office & Supplies",
-    q1_variance: 84692,
-    q2_variance: 96468,
-    q3_variance: 23283,
-    q4_variance: 99032,
-  },
-  {
-    actual_value: 133525,
-    forecasted_value: 44420,
-    name: "Office & Supplies",
-    q1_variance: 84692,
-    q2_variance: 96468,
-    q3_variance: 23283,
-    q4_variance: 99032,
-  },
-  {
-    actual_value: 133525,
-    forecasted_value: 44420,
-    name: "Office & Supplies",
-    q1_variance: 84692,
-    q2_variance: 96468,
-    q3_variance: 23283,
-    q4_variance: 99032,
-  },
-  {
-    actual_value: 133525,
-    forecasted_value: 44420,
-    name: "Office & Supplies",
-    q1_variance: 84692,
-    q2_variance: 96468,
-    q3_variance: 23283,
-    q4_variance: 99032,
-  },
-  {
-    actual_value: 133525,
-    forecasted_value: 44420,
-    name: "Office & Supplies",
-    q1_variance: 84692,
-    q2_variance: 96468,
-    q3_variance: 23283,
-    q4_variance: 99032,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
 
 export function TotalPointsTable() {
-  const rows = elements.map((element) => (
+  const { data: suppliesForecastData } = useQuery({
+    queryFn: () => builder.use().requests.get_supplies_forecast(),
+    queryKey: builder.requests.get_supplies_forecast.get(),
+    select: ({ data }) => data?.data as SuppliesForecastData[],
+  });
+
+  console.log(suppliesForecastData);
+
+  const rows = suppliesForecastData?.map((element: SuppliesForecastData) => (
     <tr key={element.name}>
       <td>{element.name}</td>
       <td>{element.actual_value}</td>

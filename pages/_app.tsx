@@ -8,6 +8,7 @@ import en from "../lang/en.json";
 import fr from "../lang/fr.json";
 import nl_NL from "../lang/nl-NL.json";
 import { ThemeProvider, useTheme } from "next-themes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const messages = {
   ar,
@@ -38,20 +39,30 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const { resolvedTheme } = useTheme();
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
   return (
-    <ThemeProvider attribute="class" forcedTheme={resolvedTheme || undefined}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <IntlProvider
-          locale={String(locale)}
-          messages={
-            messagesForLocale as
-              | Record<string, string>
-              | Record<string, MessageFormatElement[]>
-              | undefined
-          }>
-          <Component {...pageProps} dir={getDirection(String(locale))} />
-        </IntlProvider>
-      </MantineProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" forcedTheme={resolvedTheme || undefined}>
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          <IntlProvider
+            locale={String(locale)}
+            messages={
+              messagesForLocale as
+                | Record<string, string>
+                | Record<string, MessageFormatElement[]>
+                | undefined
+            }>
+            <Component {...pageProps} dir={getDirection(String(locale))} />
+          </IntlProvider>
+        </MantineProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
