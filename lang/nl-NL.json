@@ -3,5 +3,19 @@
   "page.home.head.meta.description": "Next.js i18n voorbeeld - Nederlands (Nederland)",
   "page.home.title": "Welkom bij <b>Next.js i18n zelfstudie</b>",
   "page.home.description": "U bekijkt momenteel de homepage in het Nederlands (Nederland) 🚀",
-  "page.home.sidebar.data": "gqdwfuyu3drtwuywrkudwyddrydk"
+  "page.home.sidebar.data": [
+    "Thuis",
+    "Bestanden",
+    "Deadline Project",
+    "Beheer",
+    "Database"
+  ],
+  "page.home.sidebar.lowerpartdata": [
+    "Team Award",
+    "Factuurgegevens",
+    "Instellingen",
+    "Aankondiging",
+    "Media-assets",
+    "Klantfeedback"
+  ]
 }

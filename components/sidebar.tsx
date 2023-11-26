@@ -35,7 +35,7 @@ export function Sidebar() {
   return (
     <aside
       role="complementary"
-      className="p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray max-[801px]:hidden fixed h-screen z-50 w-[200px]">
+      className="p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray max-[867px]:hidden fixed h-screen z-50 max-[1050px]:w-[200px] min-[1056px]:w-[220px]">
       <Link href="/">
         <CompanyLogo />
       </Link>
@@ -51,7 +51,7 @@ export function Sidebar() {
               <div
                 key={index}
                 className={clsx(
-                  "flex gap-2 items-center font-poppins text-sm/28 cursor-pointer whitespace-nowrap",
+                  "flex gap-2 items-center font-poppins text-sm/28 cursor-pointer whitespace-nowrap ",
                   index === 0
                     ? "text-crayola hover:text-crayola/70"
                     : "text-chinese-black dark:text-white hover:text-chinese-black/80"
@@ -75,7 +75,7 @@ export function Sidebar() {
               <div
                 key={index}
                 className={clsx(
-                  "flex gap-2 items-center font-poppins text-sm cursor-pointer whitespace-nowrap",
+                  "flex gap-2 items-center font-poppins text-sm cursor-pointer",
                   String(item) === "Home"
                     ? "text-crayola hover:text-crayola/70"
                     : "text-chinese-black dark:text-white  hover:text-chinese-black/80"

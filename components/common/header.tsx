@@ -1,4 +1,4 @@
-import { LightDark, Sidebar } from "..";
+import { CompanyLogo, LightDark, Sidebar } from "..";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Avatar, Button, Popover, TextInput } from "@mantine/core";
@@ -15,11 +15,14 @@ export function Header() {
         icon={<SearchNormal size="24" color="#A8A8A8" />}
         placeholder="Search property..."
         classNames={{
-          root: "w-1/3 py-3 rounded-xl px-6 bg-white",
+          root: "w-1/3 py-3 rounded-xl px-6 bg-white max-[867px]:hidden",
           input: "border-none",
           icon: "pr-[14px]",
         }}
       />
+      <Link href="/" className="hidden max-[867px]:flex">
+        <CompanyLogo />
+      </Link>
       {/* Light And Dark Toggle Button Functionality */}
       <LightDark />
 
@@ -39,7 +42,13 @@ export function Header() {
                 locale={locale}
                 className="block"
                 onClick={() => close()}>
-                {locale}
+                {locale === "en"
+                  ? "English"
+                  : locale === "ar"
+                  ? "Arabic"
+                  : locale === "fr"
+                  ? "French"
+                  : "Dutsh"}
               </Link>
             ))}
             {/* </section> */}

@@ -31,7 +31,17 @@ export function TransactionDetailsSection() {
             className="flex justify-between items-center">
             <section className=" flex gap-3 items-center">
               <Image
-                src="/Alex-smith.svg"
+                src={
+                  charged_by.company.toLowerCase().includes("spotify")
+                    ? "/spotify.svg"
+                    : charged_by.company.toLowerCase().includes("adobe")
+                    ? "/adobe.svg"
+                    : charged_by.company.toLowerCase().includes("upwork")
+                    ? "/upwork.svg"
+                    : charged_by.company.toLowerCase().includes("cloud")
+                    ? "/google-cloud.svg"
+                    : "/Alex-smith.svg"
+                }
                 fill
                 className="!relative !w-[28px] !h-[28px]"
                 alt="Company logo"

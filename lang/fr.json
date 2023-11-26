@@ -3,5 +3,27 @@
   "page.home.head.meta.description": "Next.js i18n exemple - Français",
   "page.home.title": "Bienvenue à <b>Next.js i18n didacticiel</b>",
   "page.home.description": "Vous consultez actuellement la page d'accueil en Français 🚀",
-  "page.home.sidebar.data": "gqdwfuyu3drtwuywrkudwyddrydk"
+  "page.home.sidebar.data": [
+    "Accueil",
+    "Fichiers",
+    "Projet Deadline",
+    "Gestion",
+    "Base de données"
+  ],
+
+  "page.home.sidebar.lowerpartdata": [
+    "Récompense d'équipe",
+    "Données de facturation",
+    "Paramètres",
+    "Annonce",
+    "Actifs multimédias",
+    "Retours clients"
+  ],
+
+  "page.home.sidebar.title": ["Tableau de bord", "Données clients"],
+
+  "page.home.header.placeholder": "Rechercher une propriété",
+  "page.home.hero.active-users": ["Utilisateurs actifs", "14.7M", "32%"],
+  "page.home.hero.active-transactions": ["Transactions", "1,234.10 $", "32%"],
+  "page.home.hero.active.cards.issued": ["Cartes émises", "3,442", "32%"]
 }
