@@ -48,15 +48,17 @@ export function Sidebar({
       className={clsx(
         "p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray  fixed h-screen z-50 max-[1050px]:w-[200px] min-[1056px]:w-[220px]",
         withLogo ? "max-[867px]:hidden" : "max-[867px]:w-[220px] fixed"
-      )}>
+      )}
+      id="sidebar"
+      aria-owns="submenu">
       {withLogo ? (
-        <Link href="/">
+        <Link href="/" role="link" title="Go to homepage">
           <CompanyLogo />
         </Link>
       ) : null}
 
-      <div className="flex flex-col gap-72">
-        <section className="pl-[2px] gap-18 flex flex-col">
+      <div className="flex flex-col gap-72" id="menu">
+        <nav className="pl-[2px] gap-18 flex flex-col">
           <article className="flex justify-between items-center font-poppins text-dark-gray text-base font-medium pb-18 border-b border-platinum dark:text-white">
             <h2 className="">{String(sidebarTitle.at(0))}</h2>
 
@@ -66,49 +68,49 @@ export function Sidebar({
             />
           </article>
 
-          <div className="flex !flex-col gap-28">
+          <ul className="flex !flex-col gap-28">
             {(sidebarData as MessageFormatElement[]).map((item, index) => (
-              <div
+              <li
                 key={index}
                 className={clsx(
                   "flex gap-2 items-center font-poppins text-sm/28 cursor-pointer whitespace-nowrap ",
                   index === 0
                     ? "text-crayola hover:text-crayola/70"
-                    : "text-chinese-black dark:text-white hover:text-chinese-black/80"
+                    : "text-chinese-black dark:text-white hover:text-chinese-black/80 hover:dark:text-crayola/70"
                 )}>
                 {dashboardIcons.at(index)?.icon}
                 <FormattedMessage
                   id={`page.home.sidebar.data.${index}`}
                   defaultMessage={String(item)}
                 />
-              </div>
+              </li>
             ))}
-          </div>
-        </section>
-        <section className="pl-[2px] gap-18 flex flex-col">
+          </ul>
+        </nav>
+        <nav className="pl-[2px] gap-18 flex flex-col">
           <h2 className="font-poppins text-dark-gray text-base font-medium pb-18 border-b border-platinum dark:text-white ">
             {String(sidebarTitle.at(1))}
           </h2>
 
-          <div className="flex !flex-col gap-28">
+          <ul className="flex !flex-col gap-28">
             {(sidebarLowerData as MessageFormatElement[]).map((item, index) => (
-              <div
+              <li
                 key={index}
                 className={clsx(
                   "flex gap-2 items-center font-poppins text-sm cursor-pointer",
                   String(item) === "Home"
                     ? "text-crayola hover:text-crayola/70"
-                    : "text-chinese-black dark:text-white  hover:text-chinese-black/80"
+                    : "text-chinese-black dark:text-white  hover:text-chinese-black/80 hover:dark:text-crayola/70"
                 )}>
                 {dashboardIcons.at(index)?.icon}
                 <FormattedMessage
                   id={`page.home.sidebar.data.${index}`}
                   defaultMessage={String(item)}
                 />
-              </div>
+              </li>
             ))}
-          </div>
-        </section>
+          </ul>
+        </nav>
       </div>
     </aside>
   );

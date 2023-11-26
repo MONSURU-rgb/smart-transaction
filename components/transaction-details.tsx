@@ -24,12 +24,16 @@ export function TransactionDetailsSection() {
         </h2>
       </article>
 
-      <div className="flex flex-col gap-5 ">
+      <div
+        className="flex flex-col gap-5"
+        aria-description="Transaction Details Chart">
         {transactionDetailsData?.map(({ created_at, charged_by, charge }) => (
           <div
             key={charged_by.company}
             className="flex justify-between items-center">
-            <section className=" flex gap-3 items-center">
+            <section
+              className=" flex gap-3 items-center"
+              aria-label="Company details">
               <Image
                 src={
                   charged_by.company.toLowerCase().includes("spotify")
@@ -60,15 +64,18 @@ export function TransactionDetailsSection() {
               </article>
             </section>
 
-            <h4
+            <span
+              aria-label="amount"
               className={clsx(
                 charge.type === "debit"
                   ? "text-geranium-lake"
                   : "text-malachite-green",
                 "text-[10px]/160 font-medium"
               )}>
-              -$12.7
-            </h4>
+              {charge.type === "debit" ? "-" : ""}
+              {charge.currency.sign}
+              {charge.amount}
+            </span>
           </div>
         ))}
       </div>

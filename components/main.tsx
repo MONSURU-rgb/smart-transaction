@@ -1,35 +1,56 @@
 import { GoDatabase } from "react-icons/go";
 import {
-  Barchart,
   CardTransfer,
   CardsIssued,
-  Mastercard,
-  TotalPointsTable,
   TransactionDetailsSection,
   UserGroup,
-  Visa,
 } from ".";
 import { useIntl } from "react-intl";
-
-import { ArrowDown2, ArrowUp2, Wallet3 } from "iconsax-react";
-
-import { DateInput } from "@mantine/dates";
-import { AreaBarChart } from "./transaction-log-chart";
+import { ArrowDown2, ArrowUp2 } from "iconsax-react";
 import { useTheme } from "next-themes";
+import { AreaChartComponent } from "./area-chart";
+import { TotalPointsSection } from "./total-points-section";
+import { ActivityChartSection } from "./activity-chart-section";
+import { CardDetails } from "./card-details";
+import { builder } from "@/api/builder";
+import { useQuery } from "@tanstack/react-query";
+import { clsx } from "@mantine/core";
+
+// Function to calculate the gain or loss
+function calculatePercentageLoss(current: number, lastMonth: number) {
+  // Check if either current or lastMonth is not a number
+  if (isNaN(current) || isNaN(lastMonth)) {
+    return 0;
+  }
+
+  // Calculate the percentage loss
+  const loss = ((lastMonth - current) / current) * 100;
+
+  // Return the result
+  return loss.toFixed(2);
+}
 
 export function MainContent() {
   const intl = useIntl();
-  const { theme } = useTheme();
-
   const activeUsers = intl.messages["page.home.hero.active-users"];
   const transactionList = intl.messages["page.home.hero.active-transactions"];
   const cardsIssued = intl.messages["page.home.hero.active.cards.issued"];
+
+  // UseQuery to get the transaction Overview
+  const { data: suppliesForecastData } = useQuery({
+    queryFn: () => builder.use().requests.get_transactions_overview(),
+    queryKey: builder.requests.get_transactions_overview.get(),
+    select: ({ data }) => data?.data,
+  });
+
+  console.log(suppliesForecastData);
+
   return (
     <main className="px-32 py-38 flex-col gap-38 flex">
       <div className="flex gap-38 max-[1321px]:flex-col max-[801px]:w-full">
-        <div className="flex flex-col gap-38 flex-1">
+        <div className="flex flex-col gap-5 flex-1">
           <div className="flex gap-6 flex-1 w-full overflow-auto no-scrollbar">
-            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 h-fit flex-1 min-w-[205px] h-[114.4px] ">
+            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 flex-1 min-w-[205px] h-[114.4px] ">
               <article className="flex gap-2 items-center justify-center">
                 <UserGroup />
                 <h2
@@ -42,17 +63,43 @@ export function MainContent() {
                 <h2
                   role="heading"
                   className="text-dark-gray text-[28px]/130 font-semibold">
-                  {String(activeUsers.at(1))}
+                  {suppliesForecastData?.at(0)?.current}
                 </h2>
                 <article className="flex gap-1">
-                  <ArrowUp2 size="24" color="#4EEA7A" variant="Bold" />
-                  <h3 className="text-base font-normal text-malachite-green">
-                    {String(activeUsers.at(2))}
+                  {String(
+                    calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(0)?.last_month),
+                      Number(suppliesForecastData?.at(0)?.current)
+                    )
+                  ).startsWith("-") ? (
+                    <ArrowDown2 size="24" color="#D62C2C" variant="Bold" />
+                  ) : (
+                    <ArrowUp2 size="24" color="#4EEA7A" variant="Bold" />
+                  )}
+
+                  <h3
+                    className={clsx(
+                      "text-base font-normal",
+                      "text-base font-normal ",
+                      String(
+                        calculatePercentageLoss(
+                          Number(suppliesForecastData?.at(0)?.last_month),
+                          Number(suppliesForecastData?.at(0)?.current)
+                        )
+                      ).startsWith("-")
+                        ? "text-geranium-lake"
+                        : "text-malachite-green"
+                    )}>
+                    {calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(1)?.last_month),
+                      Number(suppliesForecastData?.at(0)?.current)
+                    )}
+                    %
                   </h3>
                 </article>
               </section>
             </div>
-            <div className="flex gap-[14px] flex-col w-fit justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[205px]">
+            <div className="flex gap-[14px] flex-col w-fit justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[225px]">
               <article className="flex gap-2 items-center justify-center">
                 <CardTransfer />
                 <h3 className="text-are-blue text-base font-medium">
@@ -62,13 +109,38 @@ export function MainContent() {
               <section className="flex gap-[6px] items-center">
                 <h2 className="text-dark-gray text-[28px]/130 font-semibold">
                   {" "}
-                  {String(transactionList.at(1))}
+                  {suppliesForecastData?.at(1)?.current}
                 </h2>
-                <article className="flex gap-[6px]">
-                  <ArrowDown2 size="24" color="#D62C2C" variant="Bold" />
-                  <h3 className="text-base font-normal text-geranium-lake">
-                    {" "}
-                    {String(transactionList.at(2))}
+                <article className="flex gap-1">
+                  {String(
+                    calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(1)?.last_month),
+                      Number(suppliesForecastData?.at(1)?.current)
+                    )
+                  ).startsWith("-") ? (
+                    <ArrowDown2 size="24" color="#D62C2C" variant="Bold" />
+                  ) : (
+                    <ArrowUp2 size="24" color="#4EEA7A" variant="Bold" />
+                  )}
+
+                  <h3
+                    className={clsx(
+                      "text-base font-normal",
+                      "text-base font-normal ",
+                      String(
+                        calculatePercentageLoss(
+                          Number(suppliesForecastData?.at(1)?.last_month),
+                          Number(suppliesForecastData?.at(1)?.current)
+                        )
+                      ).startsWith("-")
+                        ? "text-geranium-lake"
+                        : "text-malachite-green"
+                    )}>
+                    {calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(1)?.last_month),
+                      Number(suppliesForecastData?.at(1)?.current)
+                    )}
+                    %
                   </h3>
                 </article>
               </section>
@@ -82,211 +154,61 @@ export function MainContent() {
               </article>
               <section className="flex gap-[6px] items-center">
                 <h2 className="text-dark-gray text-[28px]/130 font-semibold">
-                  {String(cardsIssued.at(1))}
+                  {suppliesForecastData?.at(2)?.current}
                 </h2>
                 <article className="flex gap-1">
-                  <ArrowUp2 size="24" color="#4EEA7A" variant="Bold" />
-                  <h3 className="text-base font-normal text-malachite-green">
-                    {String(cardsIssued.at(2))}
+                  {String(
+                    calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(2)?.last_month),
+                      Number(suppliesForecastData?.at(2)?.current)
+                    )
+                  ).startsWith("-") ? (
+                    <ArrowDown2 size="24" color="#D62C2C" variant="Bold" />
+                  ) : (
+                    <ArrowUp2 size="24" color="#4EEA7A" variant="Bold" />
+                  )}
+
+                  <h3
+                    className={clsx(
+                      "text-base font-normal",
+                      "text-base font-normal ",
+                      String(
+                        calculatePercentageLoss(
+                          Number(suppliesForecastData?.at(2)?.last_month),
+                          Number(suppliesForecastData?.at(2)?.current)
+                        )
+                      ).startsWith("-")
+                        ? "text-geranium-lake"
+                        : "text-malachite-green"
+                    )}>
+                    {calculatePercentageLoss(
+                      Number(suppliesForecastData?.at(2)?.last_month),
+                      Number(suppliesForecastData?.at(2)?.current)
+                    )}
+                    %
                   </h3>
                 </article>
               </section>
             </div>
           </div>
-          <div className="flex flex-col gap-38">
-            <div className="flex justify-between max-[504px]:flex-col">
-              <section className="flex gap-6 max-[504px]:justify-between">
-                <article className="flex gap-[10px] items-center">
-                  <h3 className="text-[#444] text-base dark:text-white">
-                    Salary
-                  </h3>
-                  <span className="bg-are-blue w-18 h-18 rounded-[5px]"></span>
-                </article>
-                <article className="flex gap-[10px] items-center">
-                  <h3 className="text-[#444] text-base dark:text-white">
-                    Cash bond
-                  </h3>
-                  <span className="bg-light-yellow w-18 h-18 rounded-[5px]"></span>
-                </article>
-              </section>
-              <section className="flex gap-4 max-[504px]:justify-between">
-                <DateInput
-                  label={
-                    <span className="text-gray text-xs/168 dark:text-white">
-                      From
-                    </span>
-                  }
-                  classNames={{
-                    root: "flex gap-4 !items-center,",
-                    input: "bg-inherit !w-[95px]",
-                  }}
-                  styles={{
-                    root: {
-                      alignItems: "center",
-                    },
-                    input: {
-                      width: "95px !important",
-                      border: "none",
-                      "&::placeholder": {
-                        color:
-                          theme === "light"
-                            ? "#121212 !important"
-                            : "#fff !important",
-                        fontSize: "14px",
-                        lineHeight: "22px",
-                      },
-                    },
-                  }}
-                  rightSection={<ArrowDown2 size="16" color="#121212" />}
-                  valueFormat="DD MMM"
-                  placeholder="20 June"
-                />
-                <DateInput
-                  label={
-                    <span className="text-gray text-xs/168 dark:text-white">
-                      To
-                    </span>
-                  }
-                  classNames={{
-                    root: "flex gap-4 !items-center",
-                    input: "bg-inherit !w-[95px]",
-                  }}
-                  styles={{
-                    root: {
-                      alignItems: "center",
-                    },
-                    input: {
-                      width: "95px !important",
-                      border: "none",
-                      "&::placeholder": {
-                        color:
-                          theme === "light"
-                            ? "#121212 !important"
-                            : "#fff !important",
-                        fontSize: "14px",
-                        lineHeight: "22px",
-                      },
-                    },
-                  }}
-                  rightSection={<ArrowDown2 size="16" color="#121212" />}
-                  valueFormat="DD MMM"
-                  placeholder="20 July"
-                />
-              </section>
-            </div>
-            <AreaBarChart />
-          </div>
+          <AreaChartComponent />
         </div>
 
         <div className="flex gap-6  min-[1321px]:flex-col min-[1321px]:max-w-[clamp(200px,24vw,397px)] max-[626px]:flex-col">
           {/* Transaction Details */}
           <TransactionDetailsSection />
-          <div className="max-[950px]:w-[300px] overflow-auto">
-            <section className="rounded-xl bg-white p-5 flex flex-col gap-3">
-              <article className="flex gap-2 items-center pb-3 border-b border-platinum">
-                <Wallet3 size="20" color="#121212" />
-                <h2 className="text-dark-gray text-base font-medium">
-                  Quick Transfer
-                </h2>
-              </article>
-              <section className="flex gap-[14px] max-w-[397px] overflow-auto no-scrollbar">
-                <article className="rounded-[6px] px-3 py-2 flex gap-3 border border-[#DFDFDF] w-fit">
-                  <Visa />
-                  <h5 className="w-[60px] text-dark-gray text-xs font-medium ">
-                    3419 Debit Card
-                  </h5>
-                </article>
-                <article className="rounded-[6px] px-3 py-2 flex gap-3 border border-[#DFDFDF] w-fit">
-                  <Mastercard />
-                  <h5 className="w-[60px] text-dark-gray text-xs font-medium">
-                    3419 Debit Card
-                  </h5>
-                </article>
-                <article className="rounded-[6px] px-3 py-2 flex gap-3 border border-[#DFDFDF] w-fit">
-                  <Visa />
-                  <h5 className="w-[60px] text-dark-gray text-xs font-medium">
-                    3419 Debit Card
-                  </h5>
-                </article>
-              </section>
-            </section>
-          </div>
+          <CardDetails />
         </div>
       </div>
 
       <div className="flex gap-6 max-[1112px]:flex-col-reverse">
         {/* Activity Chart Section */}
 
-        <section className=" px-6 py-28 flex flex-col min-[1112px]:max-w-[258px] bg-white rounded-xl h-fit">
-          <article className="flex gap-2 items-center pb-3 border-b border-platinum ">
-            <GoDatabase size="20" />
-            <h2 className="text-dark-gray text-base font-medium  ">
-              Activity Charts
-            </h2>
-          </article>
-
-          <section className="flex flex-col w-full">
-            <section className="flex min-[1112px]:flex-col max-[1112px]:justify-between gap-5 w-full bg-white flex-wrap">
-              <article className="pt-4 flex gap-[10px] flex-col min-[1112px]:w-full">
-                <h4 className="text-gray text-sm ">Per Week</h4>
-
-                <Barchart
-                  dataArray={[20, 18, 55, 35, 32, 12, 45]}
-                  bgColor={[
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                  ]}
-                  label={["", "", "", "", "", ""]}
-                />
-              </article>
-              <article className="pt-4 flex gap-[10px] flex-col min-[1112px]:w-full">
-                <h4 className="text-gray text-sm ">Per Month</h4>
-
-                <Barchart
-                  dataArray={[20, 18, 55, 35, 32, 12, 45, 35, 32, 12, 45]}
-                  bgColor={[
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                    "#FFBC02",
-                    "#876AFE",
-                    "#FFBC02",
-                  ]}
-                  label={["", "", "", "", "", "", "", "", "", ""]}
-                />
-              </article>
-            </section>
-
-            <article className="flex justify-between pt-[14px]">
-              <h4 className="text-gray text-sm ">View Per Quarter</h4>
-              <ArrowDown2 size="16" color="#121212" variant="Outline" />
-            </article>
-            <article className="flex justify-between pt-[14px]">
-              <h4 className="text-gray text-sm ">View Per Year</h4>
-              <ArrowDown2 size="16" color="#121212" variant="Outline" />
-            </article>
-          </section>
-        </section>
+        <ActivityChartSection />
 
         {/* Total Point Section */}
 
-        <section className="flex-1 pt-28 px-48 bg-white rounded-xl flex gap-7 flex-col">
-          <article className="flex gap-2 items-center pb-4 border-b border-platinum ">
-            <GoDatabase size="20" />
-            <h2 className="text-dark-gray text-base font-medium ">
-              Total Points
-            </h2>
-          </article>
-
-          <TotalPointsTable />
-        </section>
+        <TotalPointsSection />
       </div>
     </main>
   );

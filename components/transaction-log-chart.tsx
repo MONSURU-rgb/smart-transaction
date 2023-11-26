@@ -26,17 +26,15 @@ export function AreaBarChart() {
       })),
   });
 
-  console.log(getTransactionLogs);
-
   return (
-    <ResponsiveContainer width="100%" height={290}>
+    <ResponsiveContainer width="100%" height={278}>
       <AreaChart
         data={getTransactionLogs}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop stop-color="#AF9CED" stop-opacity="0.19" />
-            <stop offset="0.998978" stop-color="#AF9CED" stop-opacity="0.01" />
+            <stop stopColor="#AF9CED" stopOpacity="0.19" />
+            <stop offset="0.998978" stopColor="#AF9CED" stopOpacity="0.01" />
           </linearGradient>
         </defs>
         <XAxis dataKey="name" color="white" />

@@ -50,3 +50,18 @@ interface IndividualTransactionLog {
   salary_paid: number;
   cash_bond_bought: number;
 }
+
+export interface TransactionOverviewProps {
+  message: string;
+  current_page: number;
+  page_size: number;
+  next_page_url?: any;
+  prev_page_url?: any;
+  count: number;
+  data: IndividualTransactionOverview[];
+}
+interface IndividualTransactionOverview {
+  name: string;
+  current: number;
+  last_month: number;
+}

@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 
 export function LightDark() {
   const { theme, setTheme } = useTheme();
-  console.log(theme);
+
   return (
     <button
       className="px-2 h-fit py-2 text-white dark:text-black bg-white dark:bg-black font-semibold rounded-md light-dark"

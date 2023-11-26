@@ -31,12 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const { locale } = router;
   const messagesForLocale = messages[locale as keyof typeof messages];
 
-  if (!messagesForLocale) {
-    console.error(`No messages found for locale: ${locale}`);
-    // Handle the case where there's no matching locale
-    // Example: locale = "en";
-  }
-
   const { resolvedTheme } = useTheme();
 
   const queryClient = new QueryClient({

@@ -11,10 +11,8 @@ export function TotalPointsTable() {
     select: ({ data }) => data?.data as SuppliesForecastData[],
   });
 
-  console.log(suppliesForecastData);
-
   const rows = suppliesForecastData?.map((element: SuppliesForecastData) => (
-    <tr key={element.name}>
+    <tr key={element.actual_value}>
       <td>{element.name}</td>
       <td>{element.actual_value}</td>
       <td>{element.forecasted_value}</td>

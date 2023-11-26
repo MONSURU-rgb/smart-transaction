@@ -13,12 +13,15 @@ import { Message, SearchNormal, Setting } from "iconsax-react";
 import { PiBellThin } from "react-icons/pi";
 import { useDisclosure } from "@mantine/hooks";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 
 export function Header() {
   const { locales } = useRouter();
   const [_, { close, open }] = useDisclosure(false);
   const [___, { toggle }] = useDisclosure();
   const { theme } = useTheme();
+
+  const [showModal, setShowModal] = useState(false);
 
   const [opened, { open: OpenDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -33,6 +36,7 @@ export function Header() {
           input: "border-none",
           icon: "pr-[14px]",
         }}
+        role="search"
       />
       <Link
         href="/"
@@ -44,31 +48,38 @@ export function Header() {
 
       <div className="flex gap-5 items-center justify-center">
         <div className="max-[500px]:hidden">
-          <Popover width="target" position="bottom" withArrow shadow="md">
+          <Popover
+            width="target"
+            position="bottom"
+            withArrow
+            shadow="md"
+            opened={showModal}>
             <Popover.Target>
-              <Button className="text-dark-gray dark:text-white text-base">
+              <Button
+                className="text-dark-gray dark:text-white text-base"
+                onClick={() => setShowModal(!showModal)}>
                 Choose language
               </Button>
             </Popover.Target>
             <Popover.Dropdown>
-              {/* <section className="flex gap-4 justify-center dark:text-white"> */}
-              {[...(locales as string[])].sort().map((locale) => (
-                <Link
-                  key={locale}
-                  href="/"
-                  locale={locale}
-                  className="block"
-                  onClick={() => close()}>
-                  {locale === "en"
-                    ? "English"
-                    : locale === "ar"
-                    ? "Arabic"
-                    : locale === "fr"
-                    ? "French"
-                    : "Dutsh"}
-                </Link>
-              ))}
-              {/* </section> */}
+              <section className="flex gap-4 justify-center text-dark-gray/80 flex-col">
+                {[...(locales as string[])].sort().map((locale) => (
+                  <Link
+                    key={locale}
+                    href="/"
+                    locale={locale}
+                    className="block"
+                    onClick={() => setShowModal(false)}>
+                    {locale === "en"
+                      ? "English"
+                      : locale === "ar"
+                      ? "Arabic"
+                      : locale === "fr"
+                      ? "French"
+                      : "Dutsh"}
+                  </Link>
+                ))}
+              </section>
             </Popover.Dropdown>
           </Popover>
         </div>
@@ -103,7 +114,14 @@ export function Header() {
             aria-label="Toggle navigation"
             className="min-[867px]:hidden block relative z-[999] text-dark-gray dark:text-white"
             transitionDuration={500}
-            color={theme === "light" ? "#1F1F1F" : "white"}
+            color={
+              theme === "light"
+                ? "#1F1F1F"
+                : theme === "dark"
+                ? "white"
+                : "#1F1F1F"
+            }
+            aria-haspopup="true"
           />
         </div>
       </div>
