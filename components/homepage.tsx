@@ -4,9 +4,11 @@ import { Layout } from "./common/layout";
 import { MainContent } from "./main";
 
 export function Homepage() {
-  const intl = useIntl();
-
-  return <Layout>{<MainContent />}</Layout>;
+  return (
+    <>
+      <Layout>{<MainContent />}</Layout>
+    </>
+  );
 }
 
 {

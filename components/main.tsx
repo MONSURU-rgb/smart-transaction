@@ -15,9 +15,11 @@ import { ArrowDown2, ArrowUp2, Wallet3 } from "iconsax-react";
 
 import { DateInput } from "@mantine/dates";
 import { AreaBarChart } from "./transaction-log-chart";
+import { useTheme } from "next-themes";
 
 export function MainContent() {
   const intl = useIntl();
+  const { theme } = useTheme();
 
   const activeUsers = intl.messages["page.home.hero.active-users"];
   const transactionList = intl.messages["page.home.hero.active-transactions"];
@@ -26,16 +28,20 @@ export function MainContent() {
     <main className="px-32 py-38 flex-col gap-38 flex">
       <div className="flex gap-38 max-[1321px]:flex-col max-[801px]:w-full">
         <div className="flex flex-col gap-38 flex-1">
-          <div className="flex gap-6 flex-1">
-            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 h-fit flex-1">
+          <div className="flex gap-6 flex-1 w-full overflow-auto no-scrollbar">
+            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 h-fit flex-1 min-w-[205px] h-[114.4px] ">
               <article className="flex gap-2 items-center justify-center">
                 <UserGroup />
-                <h3 className="text-crayola text-base font-medium">
+                <h2
+                  role="heading"
+                  className="text-crayola text-base font-medium">
                   {String(activeUsers.at(0))}
-                </h3>
+                </h2>
               </article>
               <section className="flex gap-[6px] items-center">
-                <h2 className="text-dark-gray text-[28px]/130 font-semibold">
+                <h2
+                  role="heading"
+                  className="text-dark-gray text-[28px]/130 font-semibold">
                   {String(activeUsers.at(1))}
                 </h2>
                 <article className="flex gap-1">
@@ -46,7 +52,7 @@ export function MainContent() {
                 </article>
               </section>
             </div>
-            <div className="flex gap-[14px] flex-col w-fit justify-start p-5 rounded-xl bg-white items-start h-fit flex-1">
+            <div className="flex gap-[14px] flex-col w-fit justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[205px]">
               <article className="flex gap-2 items-center justify-center">
                 <CardTransfer />
                 <h3 className="text-are-blue text-base font-medium">
@@ -67,7 +73,7 @@ export function MainContent() {
                 </article>
               </section>
             </div>
-            <div className="flex gap-[14px] flex-col w-225 justify-start p-5 rounded-xl bg-white items-start h-fit flex-1">
+            <div className="flex gap-[14px] flex-col w-225 justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[205px]">
               <article className="flex gap-2 items-center justify-center">
                 <CardsIssued />
                 <h3 className="text-light-yellow text-base font-medium">
@@ -87,9 +93,9 @@ export function MainContent() {
               </section>
             </div>
           </div>
-          <div>
-            <div className="flex justify-between">
-              <section className="flex gap-6">
+          <div className="flex flex-col gap-38">
+            <div className="flex justify-between max-[504px]:flex-col">
+              <section className="flex gap-6 max-[504px]:justify-between">
                 <article className="flex gap-[10px] items-center">
                   <h3 className="text-[#444] text-base dark:text-white">
                     Salary
@@ -103,7 +109,7 @@ export function MainContent() {
                   <span className="bg-light-yellow w-18 h-18 rounded-[5px]"></span>
                 </article>
               </section>
-              <section className="flex gap-4">
+              <section className="flex gap-4 max-[504px]:justify-between">
                 <DateInput
                   label={
                     <span className="text-gray text-xs/168 dark:text-white">
@@ -112,17 +118,20 @@ export function MainContent() {
                   }
                   classNames={{
                     root: "flex gap-4 !items-center,",
-                    input: "bg-inherit",
+                    input: "bg-inherit !w-[95px]",
                   }}
                   styles={{
                     root: {
                       alignItems: "center",
                     },
                     input: {
-                      width: "95px",
+                      width: "95px !important",
                       border: "none",
                       "&::placeholder": {
-                        color: "#121212 !important",
+                        color:
+                          theme === "light"
+                            ? "#121212 !important"
+                            : "#fff !important",
                         fontSize: "14px",
                         lineHeight: "22px",
                       },
@@ -140,17 +149,20 @@ export function MainContent() {
                   }
                   classNames={{
                     root: "flex gap-4 !items-center",
-                    input: "bg-inherit",
+                    input: "bg-inherit !w-[95px]",
                   }}
                   styles={{
                     root: {
                       alignItems: "center",
                     },
                     input: {
-                      width: "95px",
+                      width: "95px !important",
                       border: "none",
                       "&::placeholder": {
-                        color: "#121212 !important",
+                        color:
+                          theme === "light"
+                            ? "#121212 !important"
+                            : "#fff !important",
                         fontSize: "14px",
                         lineHeight: "22px",
                       },
@@ -166,10 +178,10 @@ export function MainContent() {
           </div>
         </div>
 
-        <div className="flex gap-6  min-[1321px]:flex-col min-[1321px]:max-w-[clamp(200px,24vw,397px)]">
+        <div className="flex gap-6  min-[1321px]:flex-col min-[1321px]:max-w-[clamp(200px,24vw,397px)] max-[626px]:flex-col">
           {/* Transaction Details */}
           <TransactionDetailsSection />
-          <div className="max-[950px]:w-[300px]">
+          <div className="max-[950px]:w-[300px] overflow-auto">
             <section className="rounded-xl bg-white p-5 flex flex-col gap-3">
               <article className="flex gap-2 items-center pb-3 border-b border-platinum">
                 <Wallet3 size="20" color="#121212" />
@@ -214,8 +226,8 @@ export function MainContent() {
           </article>
 
           <section className="flex flex-col w-full">
-            <section className="flex min-[1112px]:flex-col max-[1112px]:justify-between gap-5 w-full bg-white">
-              <article className="pt-4 flex gap-[10px] flex-col">
+            <section className="flex min-[1112px]:flex-col max-[1112px]:justify-between gap-5 w-full bg-white flex-wrap">
+              <article className="pt-4 flex gap-[10px] flex-col min-[1112px]:w-full">
                 <h4 className="text-gray text-sm ">Per Week</h4>
 
                 <Barchart
@@ -232,7 +244,7 @@ export function MainContent() {
                   label={["", "", "", "", "", ""]}
                 />
               </article>
-              <article className="pt-4 flex gap-[10px] flex-col">
+              <article className="pt-4 flex gap-[10px] flex-col min-[1112px]:w-full">
                 <h4 className="text-gray text-sm ">Per Month</h4>
 
                 <Barchart

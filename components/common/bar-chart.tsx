@@ -22,7 +22,7 @@ export function Barchart({
     labels: label,
     datasets: [
       {
-        label: "764",
+        // label: "764",
         data: dataArray,
         backgroundColor: bgColor,
 

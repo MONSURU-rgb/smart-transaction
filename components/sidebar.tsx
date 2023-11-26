@@ -3,8 +3,15 @@ import { FormattedMessage, useIntl, MessageFormatElement } from "react-intl";
 import { CompanyLogo, DeadlineBag, Files, HomepageIcon, Status } from ".";
 import { clsx } from "@mantine/core";
 import Link from "next/link";
+import { LiaTimesSolid } from "react-icons/lia";
 
-export function Sidebar() {
+export function Sidebar({
+  withLogo,
+  close,
+}: {
+  withLogo: boolean;
+  close?: () => void;
+}) {
   const intl = useIntl();
   const sidebarTitle: String | MessageFormatElement[] =
     intl.messages["page.home.sidebar.title"];
@@ -38,16 +45,26 @@ export function Sidebar() {
   return (
     <aside
       role="complementary"
-      className="p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray max-[867px]:hidden fixed h-screen z-50 max-[1050px]:w-[200px] min-[1056px]:w-[220px]">
-      <Link href="/">
-        <CompanyLogo />
-      </Link>
+      className={clsx(
+        "p-30 flex flex-col gap-55 bg-white dark:bg-dark-gray  fixed h-screen z-50 max-[1050px]:w-[200px] min-[1056px]:w-[220px]",
+        withLogo ? "max-[867px]:hidden" : "max-[867px]:w-[220px] fixed"
+      )}>
+      {withLogo ? (
+        <Link href="/">
+          <CompanyLogo />
+        </Link>
+      ) : null}
 
       <div className="flex flex-col gap-72">
         <section className="pl-[2px] gap-18 flex flex-col">
-          <h2 className="font-poppins text-dark-gray text-base font-medium pb-18 border-b border-platinum dark:text-white">
-            {String(sidebarTitle.at(0))}
-          </h2>
+          <article className="flex justify-between items-center font-poppins text-dark-gray text-base font-medium pb-18 border-b border-platinum dark:text-white">
+            <h2 className="">{String(sidebarTitle.at(0))}</h2>
+
+            <LiaTimesSolid
+              onClick={close}
+              className="cursor-pointer min-[867px]:hidden"
+            />
+          </article>
 
           <div className="flex !flex-col gap-28">
             {(sidebarData as MessageFormatElement[]).map((item, index) => (

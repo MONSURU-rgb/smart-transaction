@@ -26,19 +26,21 @@ export function TotalPointsTable() {
   ));
 
   return (
-    <Table verticalSpacing={20}>
-      <thead>
-        <tr>
-          <th>Actual</th>
-          <th>Actual</th>
-          <th>Forecast</th>
-          <th>Variance</th>
-          <th>Variance</th>
-          <th>Variance</th>
-          <th>Variance</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+    <div className="overflow-auto mx-auto w-full">
+      <Table verticalSpacing={20} className="overflow-auto w-full mx-auto">
+        <thead>
+          <tr>
+            <th>Actual</th>
+            <th>Actual</th>
+            <th>Forecast</th>
+            <th>Variance</th>
+            <th>Variance</th>
+            <th>Variance</th>
+            <th>Variance</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+    </div>
   );
 }

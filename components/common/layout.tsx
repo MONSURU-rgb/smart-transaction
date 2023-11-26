@@ -4,7 +4,7 @@ import { Header, Sidebar } from "..";
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-screen overflow-auto">
-      <Sidebar />
+      <Sidebar withLogo={true} />
 
       <Main>{children}</Main>
     </div>

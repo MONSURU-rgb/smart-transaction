@@ -10,7 +10,7 @@ import nl_NL from "../lang/nl-NL.json";
 import { ThemeProvider, useTheme } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const messages = {
+export const messages = {
   ar,
   en,
   fr,
@@ -48,20 +48,22 @@ export default function App({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" forcedTheme={resolvedTheme || undefined}>
-        <MantineProvider withGlobalStyles withNormalizeCSS>
-          <IntlProvider
-            locale={String(locale)}
-            messages={
-              messagesForLocale as unknown as
-                | Record<string, string>
-                | Record<string, MessageFormatElement[]>
-            }>
+    <IntlProvider
+      locale={String(locale)}
+      messages={
+        messagesForLocale as unknown as
+          | Record<string, string>
+          | Record<string, MessageFormatElement[]>
+      }>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider
+          attribute="class"
+          forcedTheme={resolvedTheme || undefined}>
+          <MantineProvider withGlobalStyles withNormalizeCSS>
             <Component {...pageProps} dir={getDirection(String(locale))} />
-          </IntlProvider>
-        </MantineProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+          </MantineProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </IntlProvider>
   );
 }

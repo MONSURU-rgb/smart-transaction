@@ -17,7 +17,7 @@ const config: Config = {
         18: "clamp(12px,1.1vw,18px)",
         28: "clamp(18px,1.8vw,28px)",
         30: "clamp(18px,1.9vw,30px)",
-        32: "clamp(18px,2vw,32px)",
+        32: "clamp(15px,2vw,32px)",
         38: "clamp(24px,2.8vw,38px)",
         48: "clamp(30px,3.2vw,48px)",
         55: "clamp(32px,3.4vw,55px)",
