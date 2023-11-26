@@ -6,9 +6,12 @@ import Link from "next/link";
 
 export function Sidebar() {
   const intl = useIntl();
-  const sidebarTitle = intl.messages["page.home.sidebar.title"];
-  const sidebarData = intl.messages["page.home.sidebar.data"];
-  const sidebarLowerData = intl.messages["page.home.sidebar.lowerpartdata"];
+  const sidebarTitle: String | MessageFormatElement[] =
+    intl.messages["page.home.sidebar.title"];
+  const sidebarData: String | MessageFormatElement[] =
+    intl.messages["page.home.sidebar.data"];
+  const sidebarLowerData: String | MessageFormatElement[] =
+    intl.messages["page.home.sidebar.lowerpartdata"];
 
   const dashboardIcons = [
     { icon: <HomepageIcon /> },

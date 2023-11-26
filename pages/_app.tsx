@@ -54,10 +54,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <IntlProvider
             locale={String(locale)}
             messages={
-              messagesForLocale as
+              messagesForLocale as unknown as
                 | Record<string, string>
                 | Record<string, MessageFormatElement[]>
-                | undefined
             }>
             <Component {...pageProps} dir={getDirection(String(locale))} />
           </IntlProvider>
