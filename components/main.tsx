@@ -50,7 +50,7 @@ export function MainContent() {
       <div className="flex gap-38 max-[1321px]:flex-col max-[801px]:w-full">
         <div className="flex flex-col gap-5 flex-1">
           <div className="flex gap-6 flex-1 w-full overflow-auto no-scrollbar">
-            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 flex-1 min-w-[205px] h-[114.4px] ">
+            <div className="whitespace-nowrap flex gap-[14px] flex-col justify-start p-5 rounded-xl bg-white items-start w-225 flex-1 min-w-[225px] h-[114.4px] ">
               <article className="flex gap-2 items-center justify-center">
                 <UserGroup />
                 <h2
@@ -145,7 +145,7 @@ export function MainContent() {
                 </article>
               </section>
             </div>
-            <div className="flex gap-[14px] flex-col w-225 justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[205px]">
+            <div className="flex gap-[14px] flex-col w-225 justify-start p-5 rounded-xl bg-white items-start flex-1 h-[114.4px] min-w-[225px]">
               <article className="flex gap-2 items-center justify-center">
                 <CardsIssued />
                 <h3 className="text-light-yellow text-base font-medium">

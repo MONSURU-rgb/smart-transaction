@@ -1,7 +1,14 @@
 import { builder } from "@/api/builder";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 function formatNumberInMillions(number: number) {
   if (typeof number !== "number") return;

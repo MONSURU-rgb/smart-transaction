@@ -114,13 +114,7 @@ export function Header() {
             aria-label="Toggle navigation"
             className="min-[867px]:hidden block relative z-[999] text-dark-gray dark:text-white"
             transitionDuration={500}
-            color={
-              theme === "light"
-                ? "#1F1F1F"
-                : theme === "dark"
-                ? "white"
-                : "#1F1F1F"
-            }
+            color={theme === "light" ? "#1F1F1F" : "#FFFFFF"}
             aria-haspopup="true"
           />
         </div>

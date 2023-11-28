@@ -39,6 +39,8 @@ export function AreaChartComponent() {
               },
               input: {
                 width: "95px !important",
+                color:
+                  theme === "light" ? "#121212 !important" : "#fff !important",
                 border: "none",
                 "&::placeholder": {
                   color:
@@ -70,6 +72,8 @@ export function AreaChartComponent() {
               input: {
                 width: "95px !important",
                 border: "none",
+                color:
+                  theme === "light" ? "#121212 !important" : "#fff !important",
                 "&::placeholder": {
                   color:
                     theme === "light"
